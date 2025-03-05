@@ -1,0 +1,43 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: test
+      id: test
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: test
+        setup-command: ''
+        command: javac SelectionSort.java && java SelectionSort
+        input: |-
+          5
+          12
+          58
+          5
+          32
+          16
+        expected-output: "Enter the number of elements: Enter the elements:\nArray
+          before sorting: 12 58 5 32 16 \nArray after iteration 1: 5 58 12 32 16 \nArray
+          after iteration 2: 5 12 58 32 16 \nArray after iteration 3: 5 12 16 32 58
+          \nArray after iteration 4: 5 12 16 32 58 \nArray after sorting: 5 12 16
+          32 58"
+        comparison-method: exact
+        timeout: 10
+        max-score: 10
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        TEST_RESULTS: "${{steps.test.outputs.result}}"
+      with:
+        runners: test
