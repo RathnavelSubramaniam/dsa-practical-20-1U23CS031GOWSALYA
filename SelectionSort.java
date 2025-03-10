@@ -1,8 +1,21 @@
 import java.util.Scanner;
 
 public class SelectionSort {
-    public static void selectionSortIterative() {
-        //TYPE YOUR CODE HERE
+    public static void selectionSortIterative(int[] arr) {
+        int n = arr.length;
+
+        for (int i = 0; i < n - 1; i++) {
+            int minIndex = i;
+
+            for (int j = i + 1; j < n; j++) {
+                if (arr[j] < arr[minIndex]) {
+                    minIndex = j;
+                }
+            }
+
+            int temp = arr[minIndex];
+            arr[minIndex] = arr[i];
+            arr[i] = temp;
 
             System.out.print("Array after iteration " + (i + 1) + ": ");
             for (int k = 0; k < arr.length; k++) {
@@ -10,11 +23,10 @@ public class SelectionSort {
             }
             System.out.println();
         }
-    }
-
+}
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter the number of elements: ");
+        System.out.println("Enter the number of elements: ");
         int size = scanner.nextInt();
         int[] array = new int[size];
         System.out.println("Enter the elements:");
@@ -34,4 +46,3 @@ public class SelectionSort {
         System.out.println();
     }
 }
-
